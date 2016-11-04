@@ -1,0 +1,21 @@
+#!./expect5.45/expect -f
+
+set room [lindex $argv 0];
+set indexOne [lindex $argv 1];
+set indexTwo [lindex $argv 2];
+if { $room == 230 } {
+spawn ssh -o "StrictHostKeyChecking no" YOUR_USERNAME@its-cseb$room-$indexOne$indexTwo "who | grep pts"
+} else {
+    if { $room == 260 } {
+    spawn ssh -o "StrictHostKeyChecking no" YOUR_USERNAME@its-cseb$room-$indexOne$indexTwo "who | grep pts"
+    } else {
+    spawn ssh -o "StrictHostKeyChecking no" YOUR_USERNAME@acs-cseb$room-$indexOne$indexTwo.ucsd.edu "who | grep pts"
+    }
+}
+
+expect "*?assword*" {
+send "A_PASSWORD\r"
+expect eof}
+
+
+exit
